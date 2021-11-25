@@ -10,9 +10,13 @@ function BasicLayout(props) {
   const [retVal, setRetVal] = useLocalStorageState('ret');
   const [method, setMethod] = useLocalStorageState('method');
   const [param, setParam] = useLocalStorageState('param');
+  const [rpcUrl, setRpcUrl] = useLocalStorageState('rpcUrl', 'https://gwan-ssl.wandevs.org:56891')
   return (
     <div className={styles.normal}>
       <h1 className={styles.title}>Contract Historical Data</h1>
+
+      <h3>RPC URL:</h3>
+      <input style={{width:"400px"}} value={rpcUrl} onChange={e=>setRpcUrl(e.target.value)} />
 
       <h3>Contract Address:</h3>
       <input style={{width:"400px"}} value={scAddress} onChange={e=>setScAddress(e.target.value)} />
@@ -44,7 +48,7 @@ function BasicLayout(props) {
           return;
         }
 
-        let web3 = new Web3(new Web3.providers.HttpProvider('https://gwan-ssl.wandevs.org:56891'));
+        let web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
         
         let sc = new web3.eth.Contract(abiObj, scAddress);
 
